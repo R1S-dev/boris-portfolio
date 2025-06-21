@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -6,7 +6,6 @@ import About from './components/About';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import Loader from './components/Loader';
 import { ThemeContext } from './context/ThemeContext';
 import { motion } from 'framer-motion';
 
@@ -14,26 +13,6 @@ export default function App() {
   const { t, i18n } = useTranslation();
   const [lang, setLang] = useState('sr');
   const { darkMode, setDarkMode } = useContext(ThemeContext);
-  const [showLoader, setShowLoader] = useState(true);
-
-  useEffect(() => {
-    // Skrati trajanje loadera
-    const timer = setTimeout(() => {
-      setShowLoader(false);
-    }, 1800);
-
-    // Zaključa scroll
-    if (showLoader) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
-
-    return () => {
-      clearTimeout(timer);
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, [showLoader]);
 
   const toggleLang = () => {
     const newLang = lang === 'sr' ? 'en' : 'sr';
@@ -47,8 +26,6 @@ export default function App() {
 
   return (
     <>
-      {showLoader && <Loader />}
-
       <Header
         lang={lang}
         toggleLang={toggleLang}
