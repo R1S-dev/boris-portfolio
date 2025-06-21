@@ -38,7 +38,6 @@ export default function About() {
     return () => clearInterval(interval);
   }, [inView, fullText, i18n.language]);
 
-  const bgColor = darkMode ? 'bg-[#0d1117]' : 'bg-[#f9f9f9]';
   const textColor = darkMode ? 'text-white' : 'text-black';
   const promptColor = darkMode ? 'text-red-500' : 'text-blue-600';
   const accentColor = darkMode ? 'text-red-400' : 'text-blue-700';
@@ -69,9 +68,12 @@ export default function About() {
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="w-full px-4 sm:px-6 py-12 max-w-4xl mx-auto"
+      className="w-full px-4 sm:px-6 py-12 max-w-4xl mx-auto mt-10"
     >
-      <div className={`rounded-2xl shadow-xl border ${borderColor} overflow-hidden ${bgColor}`}>
+      <div
+        className={`rounded-2xl shadow-xl border ${borderColor} overflow-hidden
+        backdrop-blur-sm bg-[#000000]/60`}
+      >
         <div className="p-4 sm:p-6 font-mono relative">
           <motion.p
             initial={{ opacity: 0, x: -10 }}

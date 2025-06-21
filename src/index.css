@@ -1,5 +1,32 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Crveni puls */
+@keyframes pulseRed {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
+}
+.animate-pulseRed {
+  animation: pulseRed 1.8s cubic-bezier(0.66, 0, 0, 1) infinite;
+}
+
+/* Spora rotacija */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
