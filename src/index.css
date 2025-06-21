@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* === Custom Animations === */
+
 /* Crveni puls */
 @keyframes pulseRed {
   0% {
@@ -29,4 +31,29 @@
 }
 .animate-spin-slow {
   animation: spin-slow 4s linear infinite;
+}
+
+/* === Custom Scrollbar using CSS variables (fully dynamic) === */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--thumb-color);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--thumb-hover);
+}
+
+/* Firefox support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumb-color) transparent;
 }

@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { ThemeContext } from '../context/ThemeContext';
 import StarsCanvas from './StarsCanvas';
-import { ChevronDown, Github, Mail } from 'lucide-react';
+import { ChevronDown, Github, Mail, Instagram } from 'lucide-react';
 import { Link } from 'react-scroll';
-import MaskImage from '../assets/mask.png'; // izmeni ako ti je drugačije
+import MaskImage from '../assets/mask.png';
 
 export default function Hero() {
   const { t } = useTranslation();
@@ -41,6 +41,7 @@ export default function Hero() {
 
           {/* Dugmići */}
           <div className="mt-8 flex flex-wrap justify-center sm:justify-start gap-4">
+            {/* GitHub */}
             <a
               href="https://github.com/R1S-dev"
               target="_blank"
@@ -55,6 +56,8 @@ export default function Hero() {
             >
               <Github size={22} />
             </a>
+
+            {/* Email */}
             <a
               href="mailto:jankoovicbooris@gmail.com"
               className="w-14 h-14 sm:w-16 sm:h-16 p-4 sm:p-5 rounded-xl transition hover:scale-110 border"
@@ -67,14 +70,28 @@ export default function Hero() {
             >
               <Mail size={22} />
             </a>
+
+            {/* Instagram */}
+            <a
+              href="https://instagram.com/boris.rs"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-14 h-14 sm:w-16 sm:h-16 p-4 sm:p-5 rounded-xl transition hover:scale-110 border"
+              style={{
+                color: accentColor,
+                borderColor: `${accentColor}44`,
+                backgroundColor: `${accentColor}11`,
+              }}
+              aria-label="Instagram"
+            >
+              <Instagram size={22} />
+            </a>
           </div>
         </div>
 
-        {/* Desna strana – SAMO BORDER oko slike, bez pozadine */}
+        {/* Desna strana – slika sa borderom */}
         <div className="relative mx-auto w-full max-w-sm aspect-square flex items-center justify-center">
-          <div
-            className={`p-[3px] rounded-2xl bg-gradient-to-br ${accentGradient}`}
-          >
+          <div className={`p-[3px] rounded-2xl bg-gradient-to-br ${accentGradient}`}>
             <img
               src={MaskImage}
               alt="Hero mask"
@@ -85,7 +102,7 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll dugme - pomereno gore */}
+      {/* Scroll dugme */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
