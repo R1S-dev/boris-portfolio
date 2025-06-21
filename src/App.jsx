@@ -8,7 +8,7 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { ThemeContext } from './context/ThemeContext';
 import { motion } from 'framer-motion';
-import StarsCanvas from './components/StarsCanvas'; // ⭐
+import StarsCanvas from './components/StarsCanvas';
 
 export default function App() {
   const { t, i18n } = useTranslation();
@@ -30,9 +30,9 @@ export default function App() {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className="min-h-screen relative font-inter text-black dark:text-white"
+      className="min-h-screen relative font-inter text-black dark:text-white overflow-x-hidden select-none"
     >
-      {/* ⭐ DARK / LIGHT MODE BACKGROUND + ZVEZDICE */}
+      {/* ⭐ DARK / LIGHT MODE BACKGROUND + STARS */}
       {darkMode ? (
         <>
           <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[#0a0a1e] via-[#0f0f28] to-[#000000]" />

@@ -10,7 +10,7 @@ module.exports = {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
         exo: ['Exo 2', 'sans-serif'],
-        orbitron: ['Orbitron', 'sans-serif'], // ✅ Dodato
+        orbitron: ['Orbitron', 'sans-serif'],
       },
       colors: {
         accentLight: '#3b82f6',
@@ -29,7 +29,7 @@ module.exports = {
       },
       animation: {
         darkGalaxy: 'darkGalaxy 12s ease-in-out infinite',
-        shimmer: 'shimmer 4s ease-in-out infinite', // ✅ Dodato
+        shimmer: 'shimmer 4s ease-in-out infinite',
       },
     },
   },
