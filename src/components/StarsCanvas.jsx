@@ -5,16 +5,15 @@ export default function StarsCanvas({ darkMode }) {
   const animationRef = useRef();
   const starsRef = useRef([]);
   const pulsesRef = useRef([]);
-  const resizeObserverRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
-    let width = 0;
-    let height = 0;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
 
-    const numStars = window.innerWidth < 768 ? 80 : 180;
+    const numStars = width < 768 ? 80 : 180;
 
     const createStars = () => {
       starsRef.current = [];
@@ -32,18 +31,12 @@ export default function StarsCanvas({ darkMode }) {
       }
     };
 
-    const setCanvasSize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-      createStars();
-    };
-
-    setCanvasSize();
+    createStars();
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Pulsing krugovi
+      // Pulsing circles
       pulsesRef.current.forEach((pulse, i) => {
         pulse.radius += 3;
         pulse.alpha -= 0.015;
@@ -59,7 +52,7 @@ export default function StarsCanvas({ darkMode }) {
         }
       });
 
-      // Zvezdice
+      // Stars
       for (let star of starsRef.current) {
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, 2 * Math.PI);
@@ -71,6 +64,7 @@ export default function StarsCanvas({ darkMode }) {
 
         star.x += star.dx * (1 + star.boost);
         star.y += star.dy * (1 + star.boost);
+
         star.alpha += star.delta;
         if (star.alpha <= 0.3 || star.alpha >= 1) star.delta = -star.delta;
         star.boost *= 0.92;
@@ -87,7 +81,9 @@ export default function StarsCanvas({ darkMode }) {
     draw();
 
     const handleResize = () => {
-      setCanvasSize();
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      createStars();
     };
 
     const handleClick = (e) => {
@@ -95,6 +91,7 @@ export default function StarsCanvas({ darkMode }) {
       const cx = e.clientX - rect.left;
       const cy = e.clientY - rect.top;
 
+      // Zvezdice koje reaguju
       for (let star of starsRef.current) {
         const dx = star.x - cx;
         const dy = star.y - cy;
@@ -107,50 +104,28 @@ export default function StarsCanvas({ darkMode }) {
         }
       }
 
+      // Dodaj pulse krug
       pulsesRef.current.push({
         x: cx,
         y: cy,
         radius: 0,
         alpha: 0.4,
-        color: darkMode ? '239, 68, 68' : '59, 130, 246',
+        color: darkMode ? '239, 68, 68' : '59, 130, 246', // red-500 / blue-500
       });
     };
 
     const handleTouch = (e) => {
-      // Fix za slučaj da dimenzije nisu tačne
-      if (
-        canvas.width !== window.innerWidth ||
-        canvas.height !== window.innerHeight
-      ) {
-        setCanvasSize();
-      }
       const touch = e.touches[0];
       handleClick({ clientX: touch.clientX, clientY: touch.clientY });
     };
 
-    // Osiguraj sve resize evente
     window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        handleResize();
-      }
-    });
-
-    resizeObserverRef.current = new ResizeObserver(() => {
-      handleResize();
-    });
-    resizeObserverRef.current.observe(document.body);
-
     window.addEventListener('click', handleClick);
     window.addEventListener('touchstart', handleTouch);
 
     return () => {
       cancelAnimationFrame(animationRef.current);
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
-      document.removeEventListener('visibilitychange', handleResize);
-      resizeObserverRef.current?.disconnect();
       window.removeEventListener('click', handleClick);
       window.removeEventListener('touchstart', handleTouch);
     };
