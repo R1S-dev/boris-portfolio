@@ -31,3 +31,14 @@ git clone https://github.com/yourusername/boris-portfolio.git
 cd boris-portfolio
 npm install
 npm run dev
+
+
+.
+├── public/              # Static assets
+├── src/
+│   ├── components/      # All UI components (Header, Hero, About, etc.)
+│   ├── context/         # Theme context (dark/light)
+│   ├── assets/          # Images (e.g., PNG mask)
+│   ├── translations/    # i18n JSON language files
+│   ├── App.jsx
+│   └── main.jsx
