@@ -4,7 +4,7 @@
 
 /* === Custom Animations === */
 
-/* Crveni puls */
+/* Crveni puls za loader i efekte */
 @keyframes pulseRed {
   0% {
     box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
@@ -17,10 +17,10 @@
   }
 }
 .animate-pulseRed {
-  animation: pulseRed 1.8s cubic-bezier(0.66, 0, 0, 1) infinite;
+  animation: pulseRed 1.6s cubic-bezier(0.66, 0, 0, 1) infinite;
 }
 
-/* Spora rotacija */
+/* Spora rotacija za kružne elemente */
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
@@ -33,7 +33,8 @@
   animation: spin-slow 4s linear infinite;
 }
 
-/* === Custom Scrollbar using CSS variables (fully dynamic) === */
+/* === Custom Scrollbar (dynamic with theme context) === */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -44,15 +45,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--thumb-color);
+  background: var(--thumb-color); /* Set via JS depending on theme */
   border-radius: 10px;
   transition: background 0.3s ease;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--thumb-hover);
 }
 
-/* Firefox support */
+/* Firefox dynamic scrollbar */
 html {
   scrollbar-width: thin;
   scrollbar-color: var(--thumb-color) transparent;

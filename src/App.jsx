@@ -17,11 +17,23 @@ export default function App() {
   const [showLoader, setShowLoader] = useState(true);
 
   useEffect(() => {
+    // Skrati trajanje loadera
     const timer = setTimeout(() => {
       setShowLoader(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    }, 1800);
+
+    // Zaključa scroll
+    if (showLoader) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    return () => {
+      clearTimeout(timer);
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [showLoader]);
 
   const toggleLang = () => {
     const newLang = lang === 'sr' ? 'en' : 'sr';
@@ -51,11 +63,13 @@ export default function App() {
         className="min-h-screen relative font-inter text-black dark:text-white overflow-x-hidden select-none"
       >
         {/* Pozadina */}
-        <div className={`absolute inset-0 -z-10 ${
-          darkMode
-            ? 'bg-gradient-to-b from-[#0c0c0c] via-[#1a1a1a] to-black'
-            : 'bg-gradient-to-br from-white via-blue-50 to-sky-100'
-        }`} />
+        <div
+          className={`absolute inset-0 -z-10 ${
+            darkMode
+              ? 'bg-gradient-to-b from-[#0c0c0c] via-[#1a1a1a] to-black'
+              : 'bg-gradient-to-br from-white via-blue-50 to-sky-100'
+          }`}
+        />
 
         {/* CONTENT */}
         <Hero lang={lang} />

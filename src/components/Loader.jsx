@@ -4,7 +4,7 @@ export default function Loader() {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setHide(true), 2500);
+    const timer = setTimeout(() => setHide(true), 1300); // kraći fadeout
     return () => clearTimeout(timer);
   }, []);
 

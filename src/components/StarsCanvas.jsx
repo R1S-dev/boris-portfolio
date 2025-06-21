@@ -9,10 +9,10 @@ export default function StarsCanvas({ darkMode }) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
-    let width = (canvas.width = window.innerWidth);
-    let height = (canvas.height = window.innerHeight);
+    let width = (canvas.width = document.documentElement.clientWidth);
+    let height = (canvas.height = document.documentElement.clientHeight);
 
-    const numStars = window.innerWidth < 768 ? 80 : 180;
+    const numStars = width < 768 ? 80 : 180;
 
     const createStars = () => {
       starsRef.current = [];
@@ -40,7 +40,6 @@ export default function StarsCanvas({ darkMode }) {
         ctx.fillStyle = darkMode
           ? `rgba(255, 255, 255, ${star.alpha})`
           : `rgba(102, 191, 255, ${star.alpha * 0.7})`;
-
         ctx.fill();
 
         star.alpha += star.delta;
@@ -61,8 +60,8 @@ export default function StarsCanvas({ darkMode }) {
     draw();
 
     const handleResize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      width = canvas.width = document.documentElement.clientWidth;
+      height = canvas.height = document.documentElement.clientHeight;
       createStars();
     };
 
@@ -77,7 +76,7 @@ export default function StarsCanvas({ darkMode }) {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"
+      className="fixed top-0 left-0 w-screen h-screen -z-10 pointer-events-none"
     />
   );
 }

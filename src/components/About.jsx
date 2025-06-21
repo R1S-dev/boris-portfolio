@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
 import { useInView } from 'react-intersection-observer';
@@ -9,12 +9,12 @@ export default function About() {
   const { t } = useTranslation();
   const { darkMode } = useContext(ThemeContext);
 
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.3,
-  });
-
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
   const [displayedText, setDisplayedText] = useState('');
+  const [fixedHeight, setFixedHeight] = useState(null);
+  const [readyToShow, setReadyToShow] = useState(false);
+  const fullTextRef = useRef(null);
+
   const fullText = t('about.text');
 
   useEffect(() => {
@@ -23,10 +23,20 @@ export default function About() {
     setDisplayedText('');
     let i = 0;
 
+    // Izmeri visinu pre animacije
+    setTimeout(() => {
+      if (fullTextRef.current) {
+        const height = fullTextRef.current.offsetHeight;
+        setFixedHeight(height + 40);
+        setReadyToShow(true);
+      }
+    }, 0); // odmah posle prvog rendera
+
     const interval = setInterval(() => {
       setDisplayedText(prev => {
         if (i > fullText.length) {
           clearInterval(interval);
+          setFixedHeight(null);
           return fullText;
         }
         const next = fullText.slice(0, i);
@@ -71,10 +81,11 @@ export default function About() {
       className="w-full px-4 sm:px-6 py-12 max-w-4xl mx-auto mt-10"
     >
       <div
-        className={`rounded-2xl shadow-xl border ${borderColor} overflow-hidden
-        backdrop-blur-sm bg-[#000000]/60`}
+        className={`rounded-2xl shadow-xl border ${borderColor} overflow-hidden backdrop-blur-sm bg-[#000000]/60`}
       >
         <div className="p-4 sm:p-6 font-mono relative">
+
+          {/* Prompt */}
           <motion.p
             initial={{ opacity: 0, x: -10 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -84,19 +95,33 @@ export default function About() {
             {'> cat about.txt'}
           </motion.p>
 
-          <pre className={`whitespace-pre-wrap text-sm sm:text-base ${textColor} leading-relaxed`}>
-            {renderStyledJson()}
-            {displayedText.length === fullText.length && (
-              <motion.span
-                className={`${accentColor}`}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{ repeat: Infinity, duration: 1 }}
-              >
-                █
-              </motion.span>
-            )}
+          {/* Nevidljivo merenje */}
+          <pre
+            ref={fullTextRef}
+            className="absolute opacity-0 pointer-events-none whitespace-pre-wrap text-sm sm:text-base leading-relaxed"
+          >
+            {fullText}
           </pre>
+
+          {/* Prikaz (tek kad je visina spremna) */}
+          {readyToShow && (
+            <pre
+              className={`whitespace-pre-wrap text-sm sm:text-base ${textColor} leading-relaxed transition-all duration-300`}
+              style={fixedHeight ? { minHeight: `${fixedHeight}px` } : {}}
+            >
+              {renderStyledJson()}
+              {displayedText.length === fullText.length && (
+                <motion.span
+                  className={accentColor}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ repeat: Infinity, duration: 1 }}
+                >
+                  █
+                </motion.span>
+              )}
+            </pre>
+          )}
         </div>
       </div>
     </motion.section>
