@@ -21,7 +21,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen -mt-40 flex items-center justify-center px-6 sm:px-10 overflow-hidden">
+    <section className="relative w-full min-h-screen -mt-20 flex items-center justify-center px-6 sm:px-10 overflow-hidden">
       <StarsCanvas darkMode={darkMode} />
 
       {/* Aura pozadina */}
