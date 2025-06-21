@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* === Fix za horizontalni scroll === */
-html, body {
+body {
   overflow-x: hidden;
 }
 

@@ -22,7 +22,7 @@ export default function Header({ lang, toggleLang, toggleTheme, darkMode }) {
   const accentColor = darkMode ? '#ef4444' : '#3b82f6';
 
   return (
-    <>
+    <div className="sticky top-0 z-[999]">
       <motion.header
         initial={false}
         animate={{
@@ -31,7 +31,7 @@ export default function Header({ lang, toggleLang, toggleTheme, darkMode }) {
           boxShadow: scrolled ? '0 6px 20px rgba(0,0,0,0.2)' : 'none',
         }}
         transition={{ duration: 0.4, ease: 'easeInOut' }}
-        className="sticky top-0 z-50 w-full backdrop-blur-lg border-b border-neutral-300 dark:border-neutral-800"
+        className="w-full backdrop-blur-lg border-b border-neutral-300 dark:border-neutral-800"
       >
         <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-4 sm:px-6 md:px-8">
           {/* Leva strana - Ime + kontakt */}
@@ -112,23 +112,23 @@ export default function Header({ lang, toggleLang, toggleTheme, darkMode }) {
           </div>
         </div>
 
-        {/* Linijica ispod headera + progress bar */}
+        {/* Linija ispod headera + progress bar */}
         <div className="relative">
-          {/* Estetska cyber linija - samo kada na vrhu */}
           <motion.div
             initial={{ width: '100%' }}
             animate={{ opacity: scrolled ? 0 : 1 }}
             transition={{ duration: 0.4 }}
-            style={{ height: '2px', background: `linear-gradient(to right, transparent, ${accentColor}, transparent)` }}
+            style={{
+              height: '2px',
+              background: `linear-gradient(to right, transparent, ${accentColor}, transparent)`,
+            }}
           />
-
-          {/* Progress bar */}
           <motion.div
             style={{ scaleX: scrollX, backgroundColor: accentColor }}
             className="h-[3px] origin-left absolute top-0 left-0 right-0"
           />
         </div>
       </motion.header>
-    </>
+    </div>
   );
 }

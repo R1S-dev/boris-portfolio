@@ -12,7 +12,6 @@ export default function About() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 });
   const [displayedText, setDisplayedText] = useState('');
   const [fixedHeight, setFixedHeight] = useState(null);
-  const [readyToShow, setReadyToShow] = useState(false);
   const fullTextRef = useRef(null);
 
   const fullText = t('about.text');
@@ -23,20 +22,16 @@ export default function About() {
     setDisplayedText('');
     let i = 0;
 
-    // Izmeri visinu pre animacije
-    setTimeout(() => {
-      if (fullTextRef.current) {
-        const height = fullTextRef.current.offsetHeight;
-        setFixedHeight(height + 40);
-        setReadyToShow(true);
-      }
-    }, 0); // odmah posle prvog rendera
+    // Pre animacije izmeri visinu punog teksta
+    if (fullTextRef.current) {
+      setFixedHeight(fullTextRef.current.offsetHeight);
+    }
 
     const interval = setInterval(() => {
       setDisplayedText(prev => {
         if (i > fullText.length) {
           clearInterval(interval);
-          setFixedHeight(null);
+          setFixedHeight(null); // Ukloni kada završi
           return fullText;
         }
         const next = fullText.slice(0, i);
@@ -103,25 +98,23 @@ export default function About() {
             {fullText}
           </pre>
 
-          {/* Prikaz (tek kad je visina spremna) */}
-          {readyToShow && (
-            <pre
-              className={`whitespace-pre-wrap text-sm sm:text-base ${textColor} leading-relaxed transition-all duration-300`}
-              style={fixedHeight ? { minHeight: `${fixedHeight}px` } : {}}
-            >
-              {renderStyledJson()}
-              {displayedText.length === fullText.length && (
-                <motion.span
-                  className={accentColor}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 1, 0] }}
-                  transition={{ repeat: Infinity, duration: 1 }}
-                >
-                  █
-                </motion.span>
-              )}
-            </pre>
-          )}
+          {/* Prikaz */}
+          <pre
+            className={`whitespace-pre-wrap text-sm sm:text-base ${textColor} leading-relaxed transition-all duration-300 min-h-[240px]`}
+            style={fixedHeight ? { minHeight: `${fixedHeight + 40}px` } : {}}
+          >
+            {renderStyledJson()}
+            {displayedText.length === fullText.length && (
+              <motion.span
+                className={accentColor}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ repeat: Infinity, duration: 1 }}
+              >
+                █
+              </motion.span>
+            )}
+          </pre>
         </div>
       </div>
     </motion.section>
